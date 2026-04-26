@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     console.log(session)
     response.cookies.set('access_token', session.accessToken, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         maxAge: 24 * 60 * 60 * 1000,
         path: '/'
     })
