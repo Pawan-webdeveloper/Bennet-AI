@@ -1,5 +1,5 @@
 (function () {
-  const api_Url = "http://localhost:3000/api/chat";
+  const api_Url = "https://bennet-ai.vercel.app/api/chat";
 
   const scriptTag = document.currentScript;
 
