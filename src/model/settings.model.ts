@@ -5,6 +5,7 @@ interface ISettings{
     businessName: string
     supportEmail: string
     knowledge : string
+    iconColor: string
 }
 
 
@@ -22,6 +23,10 @@ const settingSchema = new Schema<ISettings>({
         },
          knowledge:{
             type: String
+        },
+         iconColor:{
+            type: String,
+            default: "#000000"
         },
 }, {timestamps:true})
 
