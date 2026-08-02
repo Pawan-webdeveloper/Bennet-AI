@@ -1,5 +1,6 @@
 (function () {
   const api_Url = "https://bennet-ai.vercel.app/api/chat";
+  const settings_Url = "https://bennet-ai.vercel.app/api/settings/get";
 
   const scriptTag = document.currentScript;
 
@@ -8,6 +9,14 @@
   if (!ownerId) {
     console.log("owner id is not found");
     return;
+  }
+
+  let iconColor = "#000000";
+
+  function applyIconColor(color) {
+    if (!color) return;
+    button.style.background = color;
+    box.style.setProperty("--chat-color", color);
   }
   const button = document.createElement("div");
   button.innerHTML = "💬";
@@ -47,8 +56,8 @@
     zIndex: "999999",
     fontFamily: "Inter, system-ui, sans-serif",
   });
-  box.innerHTML = `<div style= "
-        background:#000;
+    box.innerHTML = `<div style= "
+        background:var(--chat-color, #000);
         color:#fff;
         padding: 12px 14px;
         font-size: 14px;
@@ -86,7 +95,7 @@
     <button id="chat-send" style="
         padding: 8px 12px;
         border: none;
-        background: #000;
+        background: var(--chat-color, #000);
         color: #fff;
         border-radius: 8px;
         font-size: 13px;
@@ -96,6 +105,20 @@
     `;
 
   document.body.appendChild(box);
+
+  fetch(settings_Url, {
+    method: "POST",
+    headers: { "content-Type": "application/json" },
+    body: JSON.stringify({ ownerId }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data.iconColor) {
+        iconColor = data.iconColor;
+        applyIconColor(iconColor);
+      }
+    })
+    .catch((error) => console.log(error));
 
   button.onclick = () => {
     box.style.display = box.style.display === "none" ? "flex" : "none";
@@ -120,7 +143,7 @@
       lineHeight: "1.4",
       marginBottom: "8px",
       alignSelf: from === "user" ? "flex-end" : "flex-start",
-      background: from === "user" ? "#000" : "#e5e7eb",
+      background: from === "user" ? "var(--chat-color, #000)" : "#e5e7eb",
       color: from === "user" ? "#fff" : "#111",
 
       borderTopRightRadius: from === "user" ? "4px" : "14px",

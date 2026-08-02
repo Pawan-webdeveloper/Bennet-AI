@@ -18,7 +18,7 @@ export async function POST(req:NextRequest) {
         )
         if (!settings) {
             return NextResponse.json(
-                {businessName: "", supportEmail: "", knowledgeBase: ""},
+                {businessName: "", supportEmail: "", knowledge: "", iconColor: "#000000"},
                 {status: 200}
             )
         }
