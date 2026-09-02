@@ -198,6 +198,7 @@ const HomeClient = ({ email }: { email: string }) => {
                 </div>
         </section>
         <footer className="text-center py-10 text-sm text-zinc-600">
+          <a href="https://lmspeed.net/provider/jectora" target="_blank"><img src="https://lmspeed.net/api/provider/claim-badge/2180?claim=2180-8dnWQnPTGm-U8wi5xzDKiozisrbPA6Wz" alt="Featured on LMSpeed.net" /></a>
           &copy; {new Date().getFullYear()} Bennet AI. All Rights Reserved 
         </footer>
       </div>
