@@ -12,14 +12,17 @@ const DashboardClient = ({ownerId}: {ownerId:string} ) => {
     const [businessName, setBusinessName] = useState('')
     const [supportEmail, setSupportEmail] = useState('')
     const [knowledge, setKnowledge] = useState('')
+    const [iconColor, setIconColor] = useState('#000000')
     const [loading, setLoading] = useState(false)
     const [saved, setSaved] = useState(false)
+
+    const presetColors = ['#000000', '#FF3B30', '#FF9500', '#FFCC00', '#34C759', '#007AFF', '#5856D6', '#AF52DE', '#E91E8C', '#795548']
 
     const handleSetting = async ()=> {
         setLoading(true)
        
         try {
-            const result = await axios.post('/api/settings',{ownerId,businessName, knowledge, supportEmail})
+            const result = await axios.post('/api/settings',{ownerId,businessName, knowledge, supportEmail, iconColor})
             console.log(result)
             setLoading(false)
              setSaved(true)
@@ -39,6 +42,7 @@ const DashboardClient = ({ownerId}: {ownerId:string} ) => {
             setBusinessName(result.data?.businessName || '')
             setKnowledge(result.data?.knowledge || '')
             setSupportEmail(result.data?.supportEmail || '')
+            setIconColor(result.data?.iconColor || '#000000')
             
         } catch (error) {
             console.log(error)
@@ -86,6 +90,52 @@ const DashboardClient = ({ownerId}: {ownerId:string} ) => {
                 <div className='space-y-4'>
                     <textarea className='w-full h-54 rounded-xl px-4 py-3 border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-black/80' placeholder={'Example: Your business name, services, contact information...'} value={knowledge} onChange={(e) => setKnowledge(e.target.value)}/>
                      
+                </div>
+                <div className='mb-1 mt-6'>
+                    <h1 className='text-lg font-medium mb-4'>Chatbot Icon Color</h1>
+                    <p className='text-sm text-zinc-500 mb-4'>Choose the color for your chatbot icon. It updates instantly in the preview below.</p>
+                </div>
+                <div className='space-y-4'>
+                    <div className='flex flex-wrap items-center gap-3'>
+                        {presetColors.map((color) => (
+                            <button
+                                key={color}
+                                type="button"
+                                onClick={() => setIconColor(color)}
+                                className={`w-9 h-9 rounded-full border-2 transition-transform hover:scale-110 ${iconColor === color ? 'border-zinc-900 scale-110' : 'border-zinc-200'}`}
+                                style={{ background: color }}
+                                aria-label={`Select color ${color}`}
+                            />
+                        ))}
+                        <label className='relative w-9 h-9 rounded-full border-2 border-zinc-300 overflow-hidden cursor-pointer bg-[conic-gradient(red,yellow,lime,cyan,blue,magenta,red)] hover:scale-110 transition-transform' title='Custom color'>
+                            <input
+                                type="color"
+                                value={iconColor}
+                                onChange={(e) => setIconColor(e.target.value)}
+                                className='absolute inset-0 opacity-0 cursor-pointer w-full h-full'
+                            />
+                        </label>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <span className='text-sm text-zinc-500'>Current color:</span>
+                        <span className='w-6 h-6 rounded-md border border-zinc-300' style={{ background: iconColor }} />
+                        <span className='text-sm font-mono text-zinc-700'>{iconColor}</span>
+                    </div>
+                </div>
+                <div className='mt-8'>
+                    <h1 className='text-lg font-medium mb-2'>Live Preview</h1>
+                    <p className='text-sm text-zinc-500 mb-6'>This is how your chatbot icon will appear on your website.</p>
+                    <div className='relative h-44 rounded-xl border border-zinc-200 bg-zinc-100 overflow-hidden'>
+                        <div className='flex items-center justify-center h-full text-sm text-zinc-400'>Your website goes here</div>
+                        <motion.div
+                            animate={{ y: [0, -8, 0] }}
+                            transition={{ repeat: Infinity, duration: 3 }}
+                            className='absolute bottom-4 right-4 w-14 h-14 rounded-full text-white flex items-center justify-center shadow-2xl cursor-pointer'
+                            style={{ background: iconColor }}
+                        >
+                            💬
+                        </motion.div>
+                    </div>
                 </div>
                 <div className='flex items-center gap-6'>
                     <motion.button
