@@ -27,3 +27,40 @@
     }
   }
 }
+/* ── Global UX baseline (UI/UX Pro Max pre-delivery checklist) ─────────── */
+
+/* Smooth anchor scrolling with a fixed-navbar offset */
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Tailwind v4 buttons default to cursor: default — restore the pointer */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid #539255;
+  outline-offset: 2px;
+}
+
+/* Respect prefers-reduced-motion for CSS-driven animation */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
