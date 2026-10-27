@@ -1,4 +1,4 @@
-// ScanlyFix end-to-end test: deliberately unsafe code. Do not merge. (run 2)
+// ScanlyFix end-to-end test: deliberately unsafe code. Do not merge. (run 3)
 import { exec } from 'node:child_process'
 
 export async function GET(request: Request) {
