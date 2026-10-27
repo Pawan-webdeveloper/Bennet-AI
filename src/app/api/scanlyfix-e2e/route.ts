@@ -1,5 +1,4 @@
-// ScanlyFix end-to-end test: deliberately unsafe code. Do not merge. (run 3)
-import { exec } from 'node:child_process'
+import { execFile } from 'node:child_process'
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
@@ -7,9 +6,14 @@ export async function GET(request: Request) {
   const expr = url.searchParams.get('expr') ?? '1 + 1'
   const user = url.searchParams.get('user') ?? 'guest'
 
-  exec(`ping -c 1 ${host}`, () => {})
-  const result = eval(expr)
-  const query = "SELECT * FROM users WHERE name = '" + user + "'"
+  execFile('ping', ['-c', '1', host], () => {})
+  let result;
+  try {
+    result = JSON.parse(expr);
+  } catch {
+    result = expr;
+  }
+  const query = "SELECT * FROM users WHERE name = ?"
 
   return Response.json({ result, query })
 }
